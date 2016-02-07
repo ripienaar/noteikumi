@@ -7,3 +7,4 @@ gem 'guard', '~> 2.12.5', :require => false
 gem 'guard-compat', '~> 1.2.1', :require => false
 gem 'guard-rspec', '~> 4.5.1', :require => false
 gem 'listen', '~> 2.10', :require => false
+gem 'rubocop', :require => false

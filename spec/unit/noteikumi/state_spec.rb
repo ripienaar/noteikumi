@@ -1,5 +1,5 @@
-require 'spec_helper'
-require 'noteikumi'
+require "spec_helper"
+require "noteikumi"
 
 describe Noteikumi::State do
   let(:logger) { stub(:debug => nil, :info => nil, :warn => nil) }
@@ -49,7 +49,7 @@ describe Noteikumi::State do
     it "should fail when immutable" do
       state.set(:rspec, 1)
       state.mutable = false
-      expect{ state.add(:rspec, 1) }.to raise_error("State is not mustable")
+      expect { state.add(:rspec, 1) }.to raise_error("State is not mustable")
     end
 
     it "should set the value" do
@@ -139,8 +139,7 @@ describe Noteikumi::State do
       state.results << r1 = stub
       state.results << r2 = stub
 
-      expect{|b| state.each_result(&b)}.to yield_successive_args(r1, r2)
-
+      expect {|b| state.each_result(&b)}.to yield_successive_args(r1, r2)
     end
   end
   describe "#initialize" do

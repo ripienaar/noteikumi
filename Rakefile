@@ -12,4 +12,9 @@ if defined?(RSpec::Core::RakeTask)
   task :test => :spec
 end
 
-task :default => :spec
+desc "Check Ruby style using Rubocop"
+task :rubocop do
+  sh "bundle exec rubocop -f progress -f offenses lib spec"
+end
+
+task :default => [:spec, :rubocop]

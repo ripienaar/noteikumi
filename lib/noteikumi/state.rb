@@ -24,11 +24,11 @@ class Noteikumi
     end
 
     def had_failures?
-      @results.map {|r| r.error?}.include?(true)
+      @results.map(&:error?).include?(true)
     end
 
     def items_by_type(type)
-      @items.find {|i, v| v.is_a?(type)} || []
+      @items.find {|_, v| v.is_a?(type)} || []
     end
 
     def has_item_of_type?(type)

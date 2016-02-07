@@ -1,5 +1,5 @@
-require 'spec_helper'
-require 'noteikumi'
+require "spec_helper"
+require "noteikumi"
 
 describe Noteikumi::Rule do
   let(:logger) { stub(:debug => nil, :info => nil, :warn => nil) }
