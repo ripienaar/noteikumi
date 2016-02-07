@@ -12,4 +12,4 @@ if defined?(RSpec::Core::RakeTask)
   task :test => :spec
 end
 
-task :test => :spec
+task :default => :spec
