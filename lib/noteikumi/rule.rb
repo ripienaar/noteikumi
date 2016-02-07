@@ -2,7 +2,7 @@ class Noteikumi
   class Rule
     attr_reader :priority, :concurrent, :needs, :conditions, :state
     attr_reader :run_condition, :run_logic
-    attr_accessor :file, :name
+    attr_accessor :file, :name, :state
 
     # Creates a new rule
     #
