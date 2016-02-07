@@ -3,7 +3,7 @@ require "noteikumi"
 
 describe Noteikumi::Rule do
   let(:logger) { stub(:debug => nil, :info => nil, :warn => nil) }
-  let(:rule) { Noteikumi::Rule.new(:rspec, :logger => logger) }
+  let(:rule) { Noteikumi::Rule.new(:rspec) }
 
   describe "#requirement" do
     it "should handle type only requirements" do

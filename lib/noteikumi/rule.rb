@@ -2,25 +2,20 @@ class Noteikumi
   class Rule
     attr_reader :priority, :concurrent, :needs, :conditions, :state
     attr_reader :run_condition, :run_logic
-    attr_accessor :file, :name, :state
+    attr_accessor :file, :name, :state, :logger
 
     # Creates a new rule
     #
     # @param name [String,Symbol] the name of the rule
-    # @param options [Hash] options used to configure the rule
-    # @option options [Logger] :logger A logger to use
     # @return [Rule]
-    def initialize(name, options)
+    def initialize(name)
       @name = name
       @priority = 50
       @concurrent = :unsafe
       @needs = []
       @conditions = {}
-      @logger = options[:logger]
       @state = nil
       @file = "unknown file"
-
-      @options = options
 
       run_when { true }
       run { raise("No execution logic provided for rule") }
