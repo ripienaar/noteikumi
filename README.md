@@ -24,6 +24,115 @@ you might notice if you've used others before.
     generally drive things like deploys of containers - not something that
     is specifically stream processing or require vast rule sets
 
+Why a Rule Engine?
+------------------
+
+Rule engines lets you externalise your business logic. In a complex workflow
+based system you end up hard coding your deployment flows in the program and
+adjusting the flows can be very difficult.
+
+Imagine you have a system that constantly deploy Docker containers based
+on the status of a tool like etcd.  It migth have steps like this:
+
+```
+if etcd_updated(container)
+  fetch_container_image(container)
+  stop_container(container)
+  start_container(container)
+  check_container(container)
+  notify_operators(container)
+end
+```
+
+This is hard coded and quite rigid.  If I wanted to support other notification
+methods - email, slack, hipchat etc - I would need to create some kind of plugin
+system where different notification methods can be implemented via this prescribed
+plugin structure.
+
+This is pretty annoying, even though your users can provide the notification logic
+maintaining the plugin system APIs and worrying about versioning these APIs etc
+can be quite a burden.
+
+With a rule engine you extract this logic out to small bits of code that called rules
+which are basically if / then blocks.
+
+```
+# create an engine that loads rules from the 'rules' directory
+engine = Noteikumi.new_engine("rules", Logger.new(STDOUT))
+state = engine.create_state
+
+# add the scope the rules have access to
+state[:desired_state] = etcd_desired_state(container)
+state[:container] = container
+
+# run all matching rules
+engine.process_state(state)
+```
+
+At this point there's no business logic in the actual code base and you can start
+thinking of ways to build up the logic in small parts.  Lets assume the rule set
+to deploy the container exists but now a user want to add some logic.  Examples
+migth be:
+
+  * Notify slack about containers being created
+  * Write to an external discovery database post deploy
+  * Prevent a deployment from running based on some criteria like Time of day
+  * Drain traffic from the container before deploying it
+  * Create a RBAC system that prevents certain users from deploying certain software
+  * Call out to monitoring systems removing a container about to be deployed and adding the new one to it
+
+The list is endless and it's inconceivable that every possible plugin you might
+want can be supported by the developer of the deployer.
+
+You'd create rules by priority, for example place the core deployer logic at priority
+500 and so a rule before that priority could prevent further processing or ones after
+that can do notifications.
+
+Here's a rule to notify slack post deploy:
+
+```
+Noteikumi.rule(:post_deploy_slack) do
+  # scope needs some keys, see earlier state[...] lines, this assert that
+  # specific scope keys have very specific class types
+  requirement :container, My::Container
+  requirement :desired_state, My::State
+
+  priority = 999
+
+  run do
+    container = state[:container]
+
+    require "slack-notifier"
+    notifier = Slack::Notifier.new(....)
+    if state.had_failures?
+      notifier.ping("Failed to deploy container %s at %s using tag %s" % [container.name, container.deploy_time, container.tag])
+    else
+      notifier.ping("Deployed container %s at %s using tag %s" % [container.name, container.deploy_time, container.tag])
+    end
+  end
+end
+```
+
+And here's one that prevents deployments on Fridays:
+
+```
+Noteikumi.rule(:post_deploy_slack) do
+  requirement :container, My::Container
+  requirement :desired_state, My::State
+
+  priority = 10
+
+  run do
+    raise("Go have a beer!") if Time.now.wday == 5
+  end
+end
+```
+
+As you can see a day of week checker isn't exactly anything anyone would generically
+build into any kind of deployer, but once you have a rules based logic extraction you
+can easily achieve more or less anything without having to fork the main project, it
+should just allow user supplied rules.
+
 
 Status?
 -------

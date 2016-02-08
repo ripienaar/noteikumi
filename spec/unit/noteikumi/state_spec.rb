@@ -7,11 +7,6 @@ describe Noteikumi::State do
   let(:state) { engine.create_state }
   let(:rule) { engine.rules_collection.rules.first }
 
-  describe "#each_rules" do
-    it "should yield the results" do
-
-    end
-  end
   describe "#process_rule" do
     it "should set the concurrency, run the rule and record the status " do
       rule.concurrency = :safe

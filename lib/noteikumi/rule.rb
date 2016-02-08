@@ -10,7 +10,7 @@ class Noteikumi
     # @return [Rule]
     def initialize(name)
       @name = name
-      @priority = 50
+      @priority = 500
       @concurrent = :unsafe
       @needs = []
       @conditions = {}
@@ -44,6 +44,13 @@ class Noteikumi
     # @return [void]
     def reset_state
       @state = nil
+    end
+
+    # Resets the run count for the rule to 0
+    #
+    # @return [void]
+    def reset_counter
+      @run_count = 0
     end
 
     # Assigns the state, yields to the block and resets it

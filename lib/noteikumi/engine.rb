@@ -7,8 +7,14 @@ class Noteikumi
       rules_collection.load_rules
     end
 
+    def reset_rule_counts
+      rules_collection.rules.each(&:reset_counter)
+    end
+
     def process_state(state)
       raise("No rules have been loaded into engine %s" % self) if rules_collection.empty?
+
+      reset_rule_counts
 
       rules_collection.by_priority.each do |rule|
         state.process_rule(rule)
