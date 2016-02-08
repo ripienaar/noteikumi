@@ -112,22 +112,23 @@ Noteikumi.rule(:post_deploy_slack) do
 end
 ```
 
-And here's one that prevents deployments on Fridays:
+And here's one that prevents deployments out of hours:
 
 ```ruby
-Noteikumi.rule(:post_deploy_slack) do
+Noteikumi.rule(:work_time_deploys) do
   requirement :container, My::Container
 
   priority = 10
 
-  condition(:friday?) { Time.now.wday == 5 }
+  condition(:weekend?) { Time.now.wday > 5 }
+  condition(:daytime?) { Time.now.hour.between?(9, 18) }
 
-  run_when { friday? }
+  run_when { weekend? || !daytime?}
 
   run do
-    logger.warn("preventing deployment of %s on a friday!" % state[:container].name)
+    logger.warn("preventing deployment of %s out of work hours" % state[:container].name)
 
-    raise("Go have a beer!")
+    raise("Deployment out of work hours prevented")
   end
 end
 ```
