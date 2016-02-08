@@ -25,6 +25,10 @@ class Noteikumi
     end
     alias_method :count, :size
 
+    def empty?
+      @rules.empty?
+    end
+
     def <<(rule)
       @rules << rule
     end

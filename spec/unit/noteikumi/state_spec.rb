@@ -3,8 +3,33 @@ require "noteikumi"
 
 describe Noteikumi::State do
   let(:logger) { stub(:debug => nil, :info => nil, :warn => nil) }
-  let(:engine) { stub }
-  let(:state) { Noteikumi::State.new(engine, logger) }
+  let(:engine) { Noteikumi::Engine.new("spec/fixtures", logger) }
+  let(:state) { engine.create_state }
+  let(:rule) { engine.rules_collection.rules.first }
+
+  describe "#each_rules" do
+    it "should yield the results" do
+
+    end
+  end
+  describe "#process_rule" do
+    it "should set the concurrency, run the rule and record the status " do
+      rule.concurrency = :safe
+      state.expects(:allow_mutation).twice
+      state.process_rule(rule)
+
+      rule.concurrency = :unsafe
+      state.expects(:prevent_mutation).once
+      state.expects(:allow_mutation).once
+      state.process_rule(rule)
+    end
+
+    it "should record the results" do
+      rule.expects(:process).returns(:rspec)
+      state.expects(:record_rule).returns(rule, :rspec)
+      state.process_rule(rule)
+    end
+  end
 
   describe "#get" do
     it "should get the item" do
@@ -68,8 +93,9 @@ describe Noteikumi::State do
 
   describe "#record_rule" do
     it "should record the rule" do
-      state.record_rule(rule = stub)
+      state.record_rule(rule = stub, result = stub)
       expect(state.processed_by).to eq([rule])
+      expect(state.results).to include(result)
     end
   end
 
@@ -99,14 +125,15 @@ describe Noteikumi::State do
 
   describe "#items_by_type" do
     it "should find items of the matching type" do
-      state.add(:rspec1, "rspec")
+      state.add(:rspec1, "rspec1")
       state.add(:rspec2, 1)
       state.add(:rspec3, {})
+      state.add(:rspec4, "rspec4")
 
-      expect(state.items_by_type(String)).to eq([:rspec1, "rspec"])
-      expect(state.items_by_type(Hash)).to eq([:rspec3, {}])
-      expect(state.items_by_type(Integer)).to eq([:rspec2, 1])
-      expect(state.items_by_type(Time)).to eq([])
+      expect(state.items_by_type(String)).to eq(:rspec1 => "rspec1", :rspec4 => "rspec4")
+      expect(state.items_by_type(Hash)).to eq(:rspec3 => {})
+      expect(state.items_by_type(Integer)).to eq(:rspec2 => 1)
+      expect(state.items_by_type(Time)).to eq({})
     end
   end
 
