@@ -26,10 +26,12 @@ engine.process_state(state)
 
 puts
 if state.has?(:answer)
-  puts "Computed answer: %d" % state[:answer]
+  puts "OK: Computed answer: %d" % state[:answer]
 else
-  puts "Failed to compute the answer"
+  puts "ERROR: Failed to compute the answer"
 end
 puts
 
 report(state)
+
+exit(1) unless state[:answer] == 2

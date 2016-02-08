@@ -15,10 +15,12 @@ engine.process_state(state)
 
 puts
 if state.results.size == 1
-  puts "Only one rule ran as expected"
+  puts "OK: Only one rule ran as expected"
 else
-  puts "More than one rule ran, something is not right"
+  puts "ERROR: More than one rule ran, something is not right"
 end
 puts
 
 report(state)
+
+exit(1) unless state.results.size == 1
