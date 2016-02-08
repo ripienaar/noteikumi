@@ -133,11 +133,10 @@ Noteikumi.rule(:work_time_deploys) do
 end
 ```
 
-As you can see a day of week checker isn't exactly anything anyone would generically
-build into any kind of deployer, but once you have a rules based logic extraction you
-can easily achieve more or less anything without having to fork the main project, it
-should just allow user supplied rules.
-
+Generally this work hours check would be pretty strange especially for containers I guess,
+having a rule based deployer means it can easily be implemented even if the developers
+of the tool does not support it.  They just have to provide a convenient way to have
+user supplied rules.
 
 Status?
 -------
