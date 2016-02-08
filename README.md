@@ -34,7 +34,7 @@ adjusting the flows can be very difficult.
 Imagine you have a system that constantly deploy Docker containers based
 on the status of a tool like etcd.  It migth have steps like this:
 
-```
+```ruby
 if etcd_updated(container)
   fetch_container_image(container)
   stop_container(container)
@@ -56,7 +56,7 @@ can be quite a burden.
 With a rule engine you extract this logic out to small bits of code that called rules
 which are basically if / then blocks.
 
-```
+```ruby
 # create an engine that loads rules from the 'rules' directory
 engine = Noteikumi.new_engine("rules", Logger.new(STDOUT))
 state = engine.create_state
@@ -90,7 +90,7 @@ that can do notifications.
 
 Here's a rule to notify slack post deploy:
 
-```
+```ruby
 Noteikumi.rule(:post_deploy_slack) do
   # scope needs some keys, see earlier state[...] lines, this assert that
   # specific scope keys have very specific class types
@@ -115,7 +115,7 @@ end
 
 And here's one that prevents deployments on Fridays:
 
-```
+```ruby
 Noteikumi.rule(:post_deploy_slack) do
   requirement :container, My::Container
   requirement :desired_state, My::State
