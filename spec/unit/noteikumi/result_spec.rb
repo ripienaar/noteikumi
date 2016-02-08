@@ -12,7 +12,7 @@ describe Noteikumi::Result do
       result.start_processing
       result.stop_processing
       expect(result.end_time).to be_a(Time)
-      expect(result.run_time).to be_a(Fixnum)
+      expect(result.run_time).to be_a(Float)
     end
   end
 
