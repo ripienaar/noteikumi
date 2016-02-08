@@ -95,7 +95,6 @@ Noteikumi.rule(:post_deploy_slack) do
   # scope needs some keys, see earlier state[...] lines, this assert that
   # specific scope keys have very specific class types
   requirement :container, My::Container
-  requirement :desired_state, My::State
 
   priority = 999
 
@@ -118,12 +117,17 @@ And here's one that prevents deployments on Fridays:
 ```ruby
 Noteikumi.rule(:post_deploy_slack) do
   requirement :container, My::Container
-  requirement :desired_state, My::State
 
   priority = 10
 
+  condition(:friday?) { Time.now.wday == 5 }
+
+  run_when { friday? }
+
   run do
-    raise("Go have a beer!") if Time.now.wday == 5
+    logger.warn("preventing deployment of %s on a friday!" % state[:container].name)
+
+    raise("Go have a beer!")
   end
 end
 ```
