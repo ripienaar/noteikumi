@@ -157,7 +157,7 @@ class Noteikumi
       @run_logic = blk
     end
 
-    def priority=(priority)
+    def rule_priority(priority)
       @priority = Integer(priority)
     end
 

@@ -1,6 +1,6 @@
 class Noteikumi
   class State
-    attr_reader :items, :results, :processed_by, :engine, :logger
+    attr_reader :results, :processed_by, :engine, :logger
     attr_writer :mutable
 
     def initialize(engine, logger)
@@ -30,7 +30,7 @@ class Noteikumi
     #
     # @return [Result, nil] nil when the rule did not run
     def process_rule(rule)
-      rule.concurrent_safe? ? allow_mutation : prevent_mutation
+      rule.concurrent_safe? ? prevent_mutation : allow_mutation
 
       result = rule.process(self)
 

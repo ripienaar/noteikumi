@@ -9,11 +9,11 @@ describe Noteikumi::State do
 
   describe "#process_rule" do
     it "should set the concurrency, run the rule and record the status " do
-      rule.concurrency = :safe
+      rule.concurrency = :unsafe
       state.expects(:allow_mutation).twice
       state.process_rule(rule)
 
-      rule.concurrency = :unsafe
+      rule.concurrency = :safe
       state.expects(:prevent_mutation).once
       state.expects(:allow_mutation).once
       state.process_rule(rule)

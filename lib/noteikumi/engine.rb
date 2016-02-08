@@ -1,5 +1,7 @@
 class Noteikumi
   class Engine
+    attr_reader :path
+
     def initialize(path, logger=Logger.new(STDOUT))
       @logger = logger
       @path = path.split(File::PATH_SEPARATOR)

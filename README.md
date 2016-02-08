@@ -9,8 +9,8 @@ you might notice if you've used others before.
   * It's ordered, typically rule engines just run and rerun rules till
     nothing is interested anymore and does so in semi random order.
     For operations work this is awkwrd as you wouldn't want to reinstall
-    servers over and over.  So for now rules have a priority and they
-    are run in priority order.
+    servers over and over or do things in semi random order.  So for now
+    rules have a priority and they are run in priority order.
   * Rules are run once only, as above rule engines tend to run rules
     many times over and I think it's weird for operations. So right now
     rules are run once only.  This is something I want to change, already
@@ -141,7 +141,7 @@ user supplied rules.
 Status?
 -------
 
-This is usable now, docs are in progress
+This is usable now, docs are in progress.  See the `examples` directory.
 
 Who?
 ----

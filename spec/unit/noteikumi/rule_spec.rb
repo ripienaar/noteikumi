@@ -134,12 +134,12 @@ describe Noteikumi::Rule do
     end
   end
 
-  describe "#priority=" do
+  describe "#rule_priority" do
     it "should set the priority" do
-      rule.priority = 10
+      rule.rule_priority(10)
       expect(rule.priority).to be(10)
 
-      rule.priority = "11"
+      rule.rule_priority("11")
       expect(rule.priority).to be(11)
     end
   end
