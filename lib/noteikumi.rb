@@ -7,6 +7,7 @@ require "noteikumi/rule_condition_validator"
 require "noteikumi/rule_execution_scope"
 require "noteikumi/rules"
 require "noteikumi/state"
+require "noteikumi/version"
 
 # A light weight rule engine
 #

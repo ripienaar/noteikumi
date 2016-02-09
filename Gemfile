@@ -8,3 +8,4 @@ gem 'guard-shell',:require => false
 gem 'guard-compat',:require => false
 gem 'rubocop', :require => false
 gem 'yard', :require => false
+gem 'rubygems-tasks', :require => false

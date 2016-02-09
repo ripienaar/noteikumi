@@ -1,8 +1,12 @@
+require "rubygems"
+require "rubygems/tasks"
+
 begin
-  require 'rubygems'
-  require 'rspec/core/rake_task'
+  require "rspec/core/rake_task"
 rescue LoadError
 end
+
+Gem::Tasks.new
 
 if defined?(RSpec::Core::RakeTask)
   desc "Run all specs"
