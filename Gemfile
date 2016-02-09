@@ -7,3 +7,4 @@ gem 'guard', '~> 2.13.0', :require => false
 gem 'guard-shell',:require => false
 gem 'guard-compat',:require => false
 gem 'rubocop', :require => false
+gem 'yard', :require => false

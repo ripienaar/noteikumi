@@ -2,7 +2,7 @@ require "spec_helper"
 require "noteikumi"
 
 describe Noteikumi::Result do
-  let(:rule) { mock(:name => :rspec) }
+  let(:rule) { stub(:name => :rspec) }
   let(:result) { Noteikumi::Result.new(rule) }
 
   describe "#stop_processing" do

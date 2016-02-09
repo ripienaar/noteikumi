@@ -1,5 +1,14 @@
 class Noteikumi
+  # This is a class used by {Rule#satisfies_run_condition?} to create a
+  # clean room to evaluate the state conditions in and provides helpers
+  # to expose named conditions as methods for use by {Rule#run_when}
+  #
+  # @api private
   class RuleConditionValidator
+    # Creates a new validator
+    #
+    # @param rule [Rule]
+    # @return [RuleConditionValidator]
     def initialize(rule)
       @__rule = rule
     end
@@ -28,7 +37,6 @@ class Noteikumi
 
     # Runs the rules run condition
     #
-    # @api private
     # @return [Boolean]
     def __should_run?
       instance_eval(&@__rule.run_condition)
@@ -36,7 +44,6 @@ class Noteikumi
 
     # Determines if the rule has a condition by name
     #
-    # @api private
     # @param condition [Symbol] the condition name
     # @return [Boolean]
     def __known_condition?(condition)
@@ -45,7 +52,6 @@ class Noteikumi
 
     # Retrieves a named condition from the rule
     #
-    # @api private
     # @param condition [Symbol] the condition name
     # @return [Proc,nil]
     def __condition(condition)
@@ -54,7 +60,6 @@ class Noteikumi
 
     # Evaluate a named condition
     #
-    # @api private
     # @param condition [Symbol] the condition name
     # @param args [Array<Object>] arguments to pass to the condition
     # @return [Boolean]
@@ -67,6 +72,8 @@ class Noteikumi
     # Provide method access to named based conditions
     #
     # @see {__evaluate_condition}
+    # @return [Boolean]
+    # @raise [NoMethodError] for unknown conditions
     def method_missing(method, *args, &blk)
       if __known_condition?(method)
         __evaluate_condition(method, *args)

@@ -68,18 +68,6 @@ describe Noteikumi::Rules do
     end
   end
 
-  describe "#[]" do
-    it "should fetch the right rule" do
-      rules << 1
-      rules << 2
-      rules << 3
-
-      expect(rules[0]).to be(1)
-      expect(rules[1]).to be(2)
-      expect(rules[3]).to be(nil)
-    end
-  end
-
   describe "#size" do
     it "should get the right count" do
       expect(rules.size).to be(0)

@@ -1,8 +1,34 @@
 class Noteikumi
+  # The state a rule will process, this is not a state machine
+  # but rather can be thought of like a scope
   class State
-    attr_reader :results, :processed_by, :engine, :logger
+    # The list of result obtained from each rule
+    # @return [Array<Result>]
+    attr_reader :results
+
+    # A list of rules that acted on this state
+    # @return [Array<Rule>]
+    attr_reader :processed_by
+
+    # The engine this state is associated with
+    # @api private
+    # @return [Engine]
+    attr_reader :engine
+
+    # The logger used
+    # @api private
+    # @return [Logger]
+    attr_reader :logger
+
+    # Set the state mutable or not
+    # @return [Boolean]
     attr_writer :mutable
 
+    # Creates a new state
+    #
+    # @param engine [Engine]
+    # @param logger [Logger]
+    # @return [State]
     def initialize(engine, logger)
       @items = {}
       @results = []
@@ -96,7 +122,7 @@ class Noteikumi
     #   state.meets_requirements?(:one, Fixnum) => [false, "State item :one is not a Fixnum"]
     #   state.meets_requirements?(:not_set, Fixnum) => [false, "State has no item not_set"]
     #
-    # @param requirements [Array<key,type>]
+    # @param requirement [Array<key,type>]
     # @return [Array<Boolean,String>]
     def meets_requirement?(requirement)
       key, klass = requirement
@@ -180,7 +206,7 @@ class Noteikumi
 
     # Adds an item
     #
-    # See {set} for a version of this that does not error if the
+    # See {#set} for a version of this that does not error if the
     # item is already on the state
     #
     # @param item [Symbol] item to delete
