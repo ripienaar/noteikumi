@@ -8,4 +8,3 @@ Noteikumi.rule(:creates_state) do
     state[:answer] = state[:v_1] + state[:v_1]
   end
 end
-

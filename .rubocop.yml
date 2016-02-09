@@ -2,14 +2,8 @@ AllCops:
   DisplayCopNames: true
   DisplayStyleGuide: true
 
-Style/RegexpLiteral:
-  Enabled: false
-
 Style/FormatString:
   EnforcedStyle: percent
-
-Style/SpecialGlobalVars:
-  Enabled: false
 
 Style/StringLiterals:
   Enabled: false
@@ -17,17 +11,11 @@ Style/StringLiterals:
 Style/HashSyntax:
   EnforcedStyle: hash_rockets
 
-Style/WordArray:
-  Enabled: false
-
 Style/SpaceAroundEqualsInParameterDefault:
   EnforcedStyle: no_space
 
 Style/SignalException:
   EnforcedStyle: only_raise
-
-Style/RescueModifier:
-  Enabled: false
 
 Style/SpaceInsideBlockBraces:
   Enabled: false
@@ -38,15 +26,6 @@ Style/SpaceInsideHashLiteralBraces:
 Style/SpaceAroundEqualsInParameterDefault:
   EnforcedStyle: no_space
 
-Style/Documentation:
-  Severity: warning
-
-Style/EachWithObject:
-  Enabled: false
-
-Style/GuardClause:
-  Enabled: false
-
 Style/PredicateName:
   Enabled: false
 
@@ -56,23 +35,14 @@ Style/DoubleNegation:
 Style/Documentation:
   Enabled: false
 
-Style/PerlBackrefs:
-  Enabled: false
-
-Style/Lambda:
-  Enabled: false
-
 Style/Alias:
   Enabled: false
 
 Lint/UnusedMethodArgument:
   Enabled: false
 
-Lint/AssignmentInCondition:
-  Enabled: false
-
 Metrics/LineLength:
-  Max: 180
+  Max: 120
 
 Metrics/PerceivedComplexity:
   Enabled: false
@@ -93,7 +63,4 @@ Metrics/ClassLength:
   Enabled: false
 
 Metrics/ModuleLength:
-  Enabled: false
-
-Performance/Casecmp:
   Enabled: false

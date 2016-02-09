@@ -7,5 +7,3 @@ Noteikumi.rule(:needs_state) do
     logger.info("The outcome is %d" % state[:answer])
   end
 end
-
-

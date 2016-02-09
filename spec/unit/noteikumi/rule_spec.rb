@@ -114,7 +114,7 @@ describe Noteikumi::Rule do
     end
 
     it "should store the condition" do
-      block = lambda { :rspec }
+      block = -> { :rspec }
       rule.condition(:rspec, &block)
       expect(rule.conditions[:rspec]).to eq(block)
     end
@@ -149,7 +149,7 @@ describe Noteikumi::Rule do
     end
 
     it "should save the block" do
-      block = lambda { :rspec }
+      block = -> { :rspec }
       rule.run(&block)
       expect(rule.run_logic).to be(block)
     end
@@ -161,7 +161,7 @@ describe Noteikumi::Rule do
     end
 
     it "should save the block" do
-      block = lambda { :rspec }
+      block = -> { :rspec }
       rule.run_when(&block)
       expect(rule.run_condition).to be(block)
     end

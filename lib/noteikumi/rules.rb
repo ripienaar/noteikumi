@@ -60,9 +60,9 @@ class Noteikumi
 
           if rule_names.include?(rule.name)
             raise("Already have a rule called %s, cannot load another" % rule.name)
-          else
-            self << rule
           end
+
+          self << rule
         end
       end
     end

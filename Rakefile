@@ -14,7 +14,7 @@ end
 
 desc "Check Ruby style using Rubocop"
 task :rubocop do
-  sh "bundle exec rubocop -f progress -f offenses lib spec"
+  sh "bundle exec rubocop -f progress -f offenses lib spec examples"
 end
 
 task :default => [:spec, :rubocop]

@@ -11,7 +11,7 @@
 # If a rule is set to be concurrent safe then the state is not mutable
 # and no change can be made and no items added or removed from the state
 
-$: << File.expand_path(File.join(File.dirname(__FILE__), "..", "lib"))
+$LOAD_PATH << File.expand_path(File.join(File.dirname(__FILE__), "..", "lib"))
 
 require "noteikumi"
 require File.join(File.dirname(__FILE__), "demo_util.rb")

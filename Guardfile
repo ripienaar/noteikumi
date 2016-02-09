@@ -24,10 +24,16 @@ group :noteikumi, :halt_on_fail => true do
   end
 
   guard :shell do
-    rubocop_command = "rubocop --fail-fast -f progress -f offenses %s"
+    rubocop_command = %w{rubocop -f progress -f offenses}
 
-    watch(%r{^lib|spec/(.+)\.rb$}) do |m|
-      system(rubocop_command % m.first) || throw(:task_has_failed)
+    watch(%r{^lib|spec|examples/(.+)\.rb$}) do |m|
+      rubocop_command << "--fail-fast" << m.first
+      system(rubocop_command.join(" ")) || throw(:task_has_failed)
+    end
+
+    watch(".rubocop.yml") do
+      rubocop_command << "lib" << "spec" << "examples"
+      system(rubocop_command.join(" ")) || throw(:task_has_failed)
     end
   end
 end
