@@ -5,6 +5,14 @@ describe Noteikumi::Rules do
   let(:logger) { stub(:debug => nil, :info => nil, :warn => nil) }
   let(:rules) { Noteikumi::Rules.new("spec/fixtures", logger) }
 
+  describe "#rule_names" do
+    it "should get the right names" do
+      expect(rules.rule_names).to eq([])
+      rules.load_rules
+      expect(rules.rule_names).to eq([:rspec])
+    end
+  end
+
   describe "#by_priority" do
     it "should find the rules by priority" do
       rules << stub(:priority => 30)
@@ -24,18 +32,21 @@ describe Noteikumi::Rules do
 
   describe "#load_rules" do
     it "should look in each directory and load all files" do
-      rules.expects(:load_rule).with("spec/fixtures/sample_rule.rb")
       rules.load_rules
+      expect(rules.rule_names).to include(:rspec)
+    end
+
+    it "should prevent duplicates" do
+      rules.load_rules
+      expect { rules.load_rules }.to raise_error("Already have a rule called rspec, cannot load another")
     end
   end
 
   describe "#load_rule" do
-    it "should read the file, create a rule and append it" do
+    it "should read the file and create a rule" do
       rule = rules.load_rule("spec/fixtures/sample_rule.rb")
 
       expect(rule.file).to eq("spec/fixtures/sample_rule.rb")
-      expect(rules.size).to be(1)
-      expect(rules[0]).to be(rule)
     end
   end
 

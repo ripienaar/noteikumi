@@ -33,6 +33,10 @@ class Noteikumi
       @rules << rule
     end
 
+    def rule_names
+      @rules.map(&:name)
+    end
+
     def load_rule(file)
       raise("The rule %s is not readable" % file) unless File.readable?(file)
 
@@ -40,10 +44,9 @@ class Noteikumi
 
       clean = Object.new
       rule = clean.instance_eval(body, file, 1)
+
       rule.file = file
       rule.logger = @logger
-
-      self << rule
 
       logger.debug("Loaded rule %s from %s" % [rule.name, file])
 
@@ -53,7 +56,13 @@ class Noteikumi
     def load_rules
       @rules_dir.each do |directory|
         find_rules(directory).each do |rule|
-          load_rule(File.join(directory, rule))
+          rule = load_rule(File.join(directory, rule))
+
+          if rule_names.include?(rule.name)
+            raise("Already have a rule called %s, cannot load another" % rule.name)
+          else
+            self << rule
+          end
         end
       end
     end

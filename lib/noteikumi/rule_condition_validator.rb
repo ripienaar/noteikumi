@@ -18,6 +18,14 @@ class Noteikumi
       @__rule.state.had_failures?
     end
 
+    # Checks if a rule with a specific name acted on the state
+    #
+    # @param rule [Symbol,Rule]
+    # @return [Boolean]
+    def state_processed_by?(rule)
+      @__rule.state.processed_by?(rule)
+    end
+
     # Runs the rules run condition
     #
     # @api private
