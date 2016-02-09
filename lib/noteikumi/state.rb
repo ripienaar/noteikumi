@@ -64,6 +64,18 @@ class Noteikumi
       @results.map(&:error?).include?(true)
     end
 
+    # Determines if a rule with a specific name acted on this state
+    #
+    # @param rule [Rule,Symbol] the rule name or a rule
+    # @return [Boolean]
+    def processed_by?(rule)
+      if rule.is_a?(Rule)
+        @processed_by.include?(rule)
+      else
+        @processed_by.map(&:name).include?(rule)
+      end
+    end
+
     # Selects any item that has a certain ruby class type
     #
     # @param type [Class] the type to search for

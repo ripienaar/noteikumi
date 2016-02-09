@@ -7,6 +7,25 @@ describe Noteikumi::State do
   let(:state) { engine.create_state }
   let(:rule) { engine.rules_collection.rules.first }
 
+  describe "#acted_on_by?" do
+    before(:each) do
+      state[:string] = ""
+      state[:number] = 1
+    end
+
+    it "should match rules correctly by rule" do
+      state.process_rule(rule)
+      expect(state.processed_by?(rule)).to be(true)
+      expect(state.processed_by?(Noteikumi::Rule.new(:x))).to be(false)
+    end
+
+    it "should match rules correctly by name" do
+      state.process_rule(rule)
+      expect(state.processed_by?(:rspec)).to be(true)
+      expect(state.processed_by?(:no_such_rule)).to be(false)
+    end
+  end
+
   describe "#process_rule" do
     it "should set the concurrency, run the rule and record the status " do
       rule.concurrency = :unsafe
