@@ -88,7 +88,9 @@ You'd create rules by priority, for example place the core deployer logic at pri
 500 and so a rule before that priority could prevent further processing or ones after
 that can do notifications.
 
-Here's a rule to notify slack post deploy:
+Here's a rule to notify slack post deploy, note the `state.had_failures?`, all rules are
+ran if they are interested in the state.  So this rule will run even when earlier ones
+had failed or raised exceptions so you can handle both notification scenarios here:
 
 ```ruby
 Noteikumi.rule(:post_deploy_slack) do
@@ -103,6 +105,7 @@ Noteikumi.rule(:post_deploy_slack) do
 
     require "slack-notifier"
     notifier = Slack::Notifier.new(....)
+
     if state.had_failures?
       notifier.ping("Failed to deploy container %s at %s using tag %s" % [container.name, container.deploy_time, container.tag])
     else
@@ -123,12 +126,10 @@ Noteikumi.rule(:work_time_deploys) do
   condition(:weekend?) { Time.now.wday > 5 }
   condition(:daytime?) { Time.now.hour.between?(9, 18) }
 
-  run_when { weekend? || !daytime?}
+  run_when { weekend? || !daytime? }
 
   run do
-    logger.warn("preventing deployment of %s out of work hours" % state[:container].name)
-
-    raise("Deployment out of work hours prevented")
+    raise("Deployment of container %s out of work hours prevented" % state[:container].name)
   end
 end
 ```
