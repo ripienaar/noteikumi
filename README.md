@@ -98,7 +98,7 @@ Noteikumi.rule(:post_deploy_slack) do
   # specific scope keys have very specific class types
   requirement :container, My::Container
 
-  priority = 999
+  rule_priority 999
 
   run do
     container = state[:container]
@@ -121,7 +121,7 @@ And here's one that prevents deployments out of hours:
 Noteikumi.rule(:work_time_deploys) do
   requirement :container, My::Container
 
-  priority = 10
+  rule_priority 10
 
   condition(:weekend?) { Time.now.wday > 5 }
   condition(:daytime?) { Time.now.hour.between?(9, 18) }
