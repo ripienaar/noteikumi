@@ -15,7 +15,7 @@ describe Noteikumi::Rule do
   describe "#state_meets_requirements?" do
     it "should check every requirement" do
       state.expects(:meets_requirement?).with([:string, String]).returns([true, "true"])
-      state.expects(:meets_requirement?).with([nil, Fixnum]).returns([true, "true"])
+      state.expects(:meets_requirement?).with([nil, Integer]).returns([true, "true"])
 
       rule.assign_state(state)
       expect(rule.state_meets_requirements?).to be(true)
@@ -23,7 +23,7 @@ describe Noteikumi::Rule do
 
     it "should handle failure and bail early" do
       state.expects(:meets_requirement?).with([:string, String]).returns([false, "rspec"])
-      state.expects(:meets_requirement?).with([nil, Fixnum]).never
+      state.expects(:meets_requirement?).with([nil, Integer]).never
 
       rule.assign_state(state)
       expect(rule.state_meets_requirements?).to be(false)

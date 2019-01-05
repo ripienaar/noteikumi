@@ -1,6 +1,6 @@
 Noteikumi.rule(:rspec) do
   requirement :string, String
-  requirement Fixnum
+  requirement Integer
 
   condition(:one) { true }
   condition(:two) { false }
